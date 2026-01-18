@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أذكاري - النسخة الاحترافية 2026</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f3;
+            --card-bg: white;
+            --text-color: #333;
+            --primary-color: #00796b;
+            --secondary-color: #004d40;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary-color: #80cbc4;
+            --secondary-color: #b2dfdb;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px 20px 100px; direction: rtl; scroll-behavior: smooth; transition: 0.3s; }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto 20px; position: sticky; top: 0; background: var(--bg-color); z-index: 10; padding: 10px 0; }
+        .nav-btn { background: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; text-decoration: none; }
+        .azkar-container { max-width: 600px; margin: auto; }
+        .zekr-card { background: var(--card-bg); border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; border: 3px solid transparent; text-align: center; }
+        .zekr-card.active { border-color: var(--primary-color); transform: scale(1.02); }
+        .zekr-card.completed { opacity: 0.5; background-color: #4caf5022; }
+        .zekr-text { font-size: 22px; line-height: 1.6; display: block; margin-bottom: 20px; }
+        .counter-circle { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: var(--primary-color); color: white; border-radius: 50%; font-size: 24px; font-weight: bold; }
+        .reset-fab { position: fixed; bottom: 30px; left: 30px; background: #d32f2f; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 100; }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <h2 style="margin:0; color:var(--secondary-color);">أذكار المسلم</h2>
+        <div>
+            <button onclick="toggleTheme()" class="nav-btn" id="theme-btn">🌙</button>
+            <button onclick="checkAdminAccess()" class="nav-btn">⚙️</button>
+        </div>
+    </div>
+    <div id="main-list" class="azkar-container"></div>
+    <button class="reset-fab" onclick="resetAllAzkar()">🔄</button>
+
+    <script src="script.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.documentElement;
+            const current = body.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', target);
+            document.getElementById('theme-btn').textContent = target === 'dark' ? '☀️' : '🌙';
+        }
+        function renderMainList() {
+            const container = document.getElementById('main-list');
+            container.innerHTML = '';
+            const azkar = getAzkar();
+            azkar.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'zekr-card' + (index === 0 ? ' active' : '');
+                card.id = `card-${index}`;
+                let remaining = item.count;
+                card.innerHTML = `<span class="zekr-text">${item.zekr}</span><div class="counter-circle" id="count-${index}">${remaining}</div>`;
+                card.onclick = function() {
+                    if (remaining > 0) {
+                        remaining--;
+                        document.getElementById(`count-${index}`).textContent = remaining;
+                        if (typeof playClickSound === 'function') playClickSound();
+                        if (navigator.vibrate) navigator.vibrate(50);
+                        if (remaining === 0) {
+                            card.classList.replace('active', 'completed');
+                            const next = document.getElementById(`card-${index + 1}`);
+                            if (next) { next.classList.add('active'); next.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                        }
+                    }
+                };
+                container.appendChild(card);
+            });
+        }
+        function resetAllAzkar() { if(confirm("إعادة ضبط العدادات؟")) { renderMainList(); window.scrollTo(0, 0); } }
+        window.onload = renderMainList;
+    </script>
+</body>
+</html>

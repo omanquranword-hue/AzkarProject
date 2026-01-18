@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - إدارة الأذكار</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .admin-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        h1 { color: #00796b; border-bottom: 2px solid #e0f2f1; padding-bottom: 10px; }
+        .nav-link { display: inline-block; margin-bottom: 20px; color: #00796b; text-decoration: none; font-weight: bold; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 30px; background: #e0f2f1; padding: 15px; border-radius: 8px; }
+        input[type="text"] { flex: 3; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+        input[type="number"] { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+        .btn-add { background: #00796b; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-add:hover { background: #004d40; }
+        
+        .zekr-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; transition: background 0.3s; }
+        .zekr-item:hover { background: #fafafa; }
+        .zekr-info { flex: 2; text-align: right; }
+        .zekr-count { background: #ffecb3; padding: 2px 8px; border-radius: 12px; font-size: 0.9em; margin-right: 10px; }
+        .btn-delete { background: #ff5252; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .btn-delete:hover { background: #d32f2f; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <a href="index.html" class="nav-link">⬅ العودة للتطبيق الرئيسي</a>
+        <h1>إدارة قائمة الأذكار</h1>
+        
+        <div class="input-group">
+            <input type="text" id="zekr-input" placeholder="اكتب الذكر الجديد هنا...">
+            <input type="number" id="count-input" value="1" min="1" title="عدد المرات">
+            <button class="btn-add" onclick="addZekr()">إضافة</button>
+        </div>
+
+        <div id="azkar-list-container">
+            <!-- سيتم عرض الأذكار هنا -->
+        </div>
+    </div>
+
+<script> 
+    const pass = prompt("من فضلك أدخل كلمة مرور الإدارة:"); 
+    if (pass !== "1234") { 
+        alert("وصول غير مصرح به"); 
+        window.location.href = "index.html"; 
+    } 
+</script>
+    <script src="script.js"></script>
+    <script>
+        function renderAzkar() {
+            const container = document.getElementById('azkar-list-container');
+            container.innerHTML = '';
+            const azkar = getAzkar();
+            
+            if (azkar.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: #999;">القائمة فارغة، قم بإضافة أذكار جديدة.</p>';
+                return;
+            }
+
+            azkar.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'zekr-item';
+                div.innerHTML = `
+                    <div class="zekr-info">
+                        <strong>${item.zekr}</strong>
+                        <span class="zekr-count">التكرار: ${item.count}</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteZekr(${index})">حذف</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addZekr() {
+            const zekr = document.getElementById('zekr-input').value;
+            const count = parseInt(document.getElementById('count-input').value);
+            if (!zekr) return alert("يرجى كتابة الذكر");
+
+            const azkar = getAzkar();
+            azkar.push({ zekr, count });
+            saveAzkar(azkar);
+            document.getElementById('zekr-input').value = '';
+            renderAzkar();
+        }
+
+        function deleteZekr(index) {
+            if (confirm("هل أنت متأكد من حذف هذا الذكر؟")) {
+                const azkar = getAzkar();
+                azkar.splice(index, 1);
+                saveAzkar(azkar);
+                renderAzkar();
+            }
+        }
+
+        window.onload = renderAzkar;
+    </script>
+</body>
+</html>
