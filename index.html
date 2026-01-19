@@ -3,50 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق الأذكار</title>
+    <title>أذكاري</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; text-align: center; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #00796b; }
-        .zekr-card { background: #e0f2f1; margin: 10px 0; padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; -webkit-tap-highlight-color: transparent; }
-        .zekr-card:active { transform: scale(0.95); background: #b2dfdb; }
-        .zekr-text { font-size: 1.4rem; display: block; margin-bottom: 10px; }
-        .counter { font-size: 2rem; font-weight: bold; color: #00796b; }
-        .admin-link { display: inline-block; margin-top: 20px; color: #777; text-decoration: none; font-size: 0.9rem; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: auto; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 30px; font-weight: 300; }
+        .zekr-card { background: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #fff; }
+        .zekr-card:active { transform: translateY(4px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); background: #f9f9f9; }
+        .zekr-text { font-size: 1.5rem; color: #34495e; display: block; margin-bottom: 15px; line-height: 1.6; }
+        .counter-badge { background: #00796b; color: white; padding: 10px 25px; border-radius: 50px; font-size: 1.8rem; font-weight: bold; display: inline-block; min-width: 60px; }
+        .finished { background: #ccc !important; opacity: 0.6; }
+        .footer { text-align: center; margin-top: 40px; }
+        .btn-settings { color: #95a5a6; text-decoration: none; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>أذكار المسلم</h1>
-    <div id="main-azkar-container"></div>
-    <a href="admin.html" class="admin-link">⚙️ لوحة الإدارة</a>
-</div>
-<script>
-    function loadMainAzkar() {
-        const container = document.getElementById('main-azkar-container');
-        const azkar = JSON.parse(localStorage.getItem('azkarData')) || [];
-        if (azkar.length === 0) {
-            container.innerHTML = '<p>لا توجد أذكار، انتقل للإدارة.</p>';
-            return;
+    <div class="container">
+        <h1>أذكار المسلم</h1>
+        <div id="main-list"></div>
+        <div class="footer">
+            <a href="admin.html" class="btn-settings">⚙️ الإعدادات</a>
+        </div>
+    </div>
+
+    <script>
+        function load() {
+            const data = JSON.parse(localStorage.getItem('azkarData')) || [];
+            const list = document.getElementById('main-list');
+            if(data.length === 0) {
+                list.innerHTML = "<p style='text-align:center'>لا توجد أذكار مضافة. توجه للإعدادات.</p>";
+                return;
+            }
+            list.innerHTML = '';
+            data.forEach((item, i) => {
+                list.innerHTML += `
+                    <div class="zekr-card" id="card-${i}" onclick="tap(${i})">
+                        <span class="zekr-text">${item.text}</span>
+                        <div class="counter-badge ${item.count === 0 ? 'finished' : ''}" id="cnt-${i}">${item.count}</div>
+                    </div>`;
+            });
         }
-        container.innerHTML = '';
-        azkar.forEach((item, index) => {
-            container.innerHTML += `
-                <div class="zekr-card" onclick="decrementCount(${index})">
-                    <span class="zekr-text">${item.text}</span>
-                    <div class="counter" id="count-${index}">${item.count}</div>
-                </div>`;
-        });
-    }
-    function decrementCount(index) {
-        let azkar = JSON.parse(localStorage.getItem('azkarData'));
-        if (azkar[index].count > 0) {
-            azkar[index].count--;
-            document.getElementById('count-' + index).innerText = azkar[index].count;
-            localStorage.setItem('azkarData', JSON.stringify(azkar));
+
+        function tap(i) {
+            let data = JSON.parse(localStorage.getItem('azkarData'));
+            if(data[i].count > 0) {
+                data[i].count--;
+                localStorage.setItem('azkarData', JSON.stringify(data));
+                document.getElementById(`cnt-${i}`).innerText = data[i].count;
+                if(data[i].count === 0) {
+                    document.getElementById(`cnt-${i}`).classList.add('finished');
+                    if (window.navigator.vibrate) window.navigator.vibrate(50); // اهتزاز بسيط عند الانتهاء
+                }
+            }
         }
-    }
-    window.onload = loadMainAzkar;
-</script>
+        window.onload = load;
+    </script>
 </body>
 </html>

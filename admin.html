@@ -5,47 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة الأذكار</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; padding: 15px; direction: rtl; }
-        .box { background: white; padding: 20px; border-radius: 12px; max-width: 500px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        #addBtn { width: 100%; padding: 15px; background: #00796b; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .item { background: #fff; border: 1px solid #e0f2f1; padding: 12px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; }
-        .del-btn { background: #ff5252; padding: 8px 15px; border-radius: 5px; color: white; border: none; }
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; direction: rtl; text-align: center; }
+        .box { background: white; padding: 25px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn-add { width: 100%; padding: 15px; background: #00796b; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .zekr-item { background: #fff; border-bottom: 1px solid #eee; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-del { background: #ff5252; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+        #admin-content { display: none; } /* مخفي حتى إدخال الرمز */
     </style>
 </head>
 <body>
     <div class="box">
-        <a href="index.html" style="text-decoration:none; color:#00796b;">⬅ العودة</a>
-        <h2>إدارة الأذكار</h2>
-        <input type="text" id="txt" placeholder="نص الذكر...">
-        <input type="number" id="num" value="1">
-        <button id="addBtn">إضافة الذكر</button>
-        <div id="list"></div>
+        <a href="index.html" style="text-decoration:none; color:#00796b; float:right;">⬅ العودة</a>
+        <h2 id="title">قفل الإدارة</h2>
+        
+        <div id="login-section">
+            <input type="password" id="pass-input" placeholder="أدخل الرمز السري">
+            <button class="btn-add" onclick="checkPass()">دخول</button>
+        </div>
+
+        <div id="admin-content">
+            <input type="text" id="txt" placeholder="نص الذكر الجديد...">
+            <input type="number" id="num" value="1" placeholder="عدد المرات">
+            <button class="btn-add" onclick="add()">إضافة</button>
+            <div id="list"></div>
+        </div>
     </div>
+
     <script>
+        const SECRET_CODE = "1234"; // يمكنك تغيير الرمز من هنا
+
+        function checkPass() {
+            const input = document.getElementById('pass-input').value;
+            if(input === SECRET_CODE) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+                document.getElementById('title').innerText = "إدارة الأذكار";
+                render();
+            } else {
+                alert("الرمز غير صحيح!");
+            }
+        }
+
         function render() {
             const data = JSON.parse(localStorage.getItem('azkarData')) || [];
             const list = document.getElementById('list');
             list.innerHTML = '';
             data.forEach((item, i) => {
-                list.innerHTML += `<div class="item">
+                list.innerHTML += `<div class="zekr-item">
                     <span>${item.text} (${item.count})</span>
-                    <button class="del-btn" onclick="del(${i})">حذف</button>
+                    <button class="btn-del" onclick="del(${i})">حذف</button>
                 </div>`;
             });
         }
 
-        document.getElementById('addBtn').onclick = function() {
+        function add() {
             const t = document.getElementById('txt').value;
             const n = document.getElementById('num').value;
-            if(!t) return alert("اكتب نصاً");
+            if(!t) return;
             const data = JSON.parse(localStorage.getItem('azkarData')) || [];
             data.push({ text: t, count: parseInt(n) });
-            localStorage.setItem('azkarData', JSON.stringify(data)); // الحفظ الدائم
+            localStorage.setItem('azkarData', JSON.stringify(data));
             document.getElementById('txt').value = '';
             render();
-            alert("تم الحفظ بنجاح!");
-        };
+        }
 
         function del(i) {
             const data = JSON.parse(localStorage.getItem('azkarData'));
@@ -53,7 +76,6 @@
             localStorage.setItem('azkarData', JSON.stringify(data));
             render();
         }
-        window.onload = render;
     </script>
 </body>
 </html>
