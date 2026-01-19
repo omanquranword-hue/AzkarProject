@@ -1,83 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    body {background-color: #ecf1f0}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الأذكار</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; text-align: center; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #00796b; }
+        .zekr-card { background: #e0f2f1; margin: 10px 0; padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; -webkit-tap-highlight-color: transparent; }
+        .zekr-card:active { transform: scale(0.95); background: #b2dfdb; }
+        .zekr-text { font-size: 1.4rem; display: block; margin-bottom: 10px; }
+        .counter { font-size: 2rem; font-weight: bold; color: #00796b; }
+        .admin-link { display: inline-block; margin-top: 20px; color: #777; text-decoration: none; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;!DOCTYPE html&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;html lang="ar" dir="rtl"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;head&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;title&gt;تطبيق الأذكار&lt;/title&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;style&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; text-align: center; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; shadow: 0 4px 10px rgba(0,0,0,0.1); }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>h1 { color: #00796b; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.zekr-card { background: #e0f2f1; margin: 10px 0; padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; -webkit-tap-highlight-color: transparent; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.zekr-card:active { transform: scale(0.95); background: #b2dfdb; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.zekr-text { font-size: 1.4rem; display: block; margin-bottom: 10px; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.counter { font-size: 2rem; font-weight: bold; color: #00796b; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>.admin-link { display: inline-block; margin-top: 20px; color: #777; text-decoration: none; font-size: 0.9rem; }</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;/style&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;/head&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;body&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b></b></span><br></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;div class="container"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;h1&gt;أذكار المسلم&lt;/h1&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;div id="main-azkar-container"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>&lt;!-- الأذكار ستظهر هنا تلقائياً --&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;/div&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>&lt;a href="admin.html" class="admin-link"&gt;⚙️ لوحة الإدارة&lt;/a&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;/div&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b></b></span><br></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;script&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>// وظيفة عرض الأذكار في الصفحة الرئيسية</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>function loadMainAzkar() {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>const container = document.getElementById('main-azkar-container');</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>const azkar = JSON.parse(localStorage.getItem('azkarData')) || [];</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b><span class="Apple-converted-space">        </span></b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>if (azkar.length === 0) {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>container.innerHTML = '&lt;p&gt;لا توجد أذكار مضافة، انتقل للإدارة لإضافتها.&lt;/p&gt;';</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>return;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>}</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b></b></span><br></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>container.innerHTML = '';</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>azkar.forEach((item, index) =&gt; {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>container.innerHTML += `</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">                </span>&lt;div class="zekr-card" onclick="decrementCount(${index})"&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">                    </span>&lt;span class="zekr-text"&gt;${item.text}&lt;/span&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">                    </span>&lt;div class="counter" id="count-${index}"&gt;${item.count}&lt;/div&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">                </span>&lt;/div&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>`;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>});</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b></b></span><br></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>// وظيفة تقليل العداد عند النقر (للاستخدام على الهاتف)</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>function decrementCount(index) {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>let azkar = JSON.parse(localStorage.getItem('azkarData'));</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>if (azkar[index].count &gt; 0) {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>azkar[index].count--;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>document.getElementById(`count-${index}`).innerText = azkar[index].count;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b><span class="Apple-converted-space">            </span></b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>// إذا وصل للصفر يمكن تمييزه بلون مختلف</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>if (azkar[index].count === 0) {</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">                </span>document.getElementById(`count-${index}`).parentElement.style.opacity = "0.5";</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">            </span>}</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">        </span>}</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>}</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0; min-height: 24.0px"><span class="s1"><b></b></span><br></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b><span class="Apple-converted-space">    </span>window.onload = loadMainAzkar;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;/script&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;/body&gt;</b></span></h2>
-<h2 dir="rtl" style="margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Geeza Pro'; color: #083d31; -webkit-text-stroke: #083d31; background-color: #ecf1f0"><span class="s1"><b>&lt;/html&gt;</b></span></h2>
+<div class="container">
+    <h1>أذكار المسلم</h1>
+    <div id="main-azkar-container"></div>
+    <a href="admin.html" class="admin-link">⚙️ لوحة الإدارة</a>
+</div>
+<script>
+    function loadMainAzkar() {
+        const container = document.getElementById('main-azkar-container');
+        const azkar = JSON.parse(localStorage.getItem('azkarData')) || [];
+        if (azkar.length === 0) {
+            container.innerHTML = '<p>لا توجد أذكار، انتقل للإدارة.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        azkar.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="zekr-card" onclick="decrementCount(${index})">
+                    <span class="zekr-text">${item.text}</span>
+                    <div class="counter" id="count-${index}">${item.count}</div>
+                </div>`;
+        });
+    }
+    function decrementCount(index) {
+        let azkar = JSON.parse(localStorage.getItem('azkarData'));
+        if (azkar[index].count > 0) {
+            azkar[index].count--;
+            document.getElementById('count-' + index).innerText = azkar[index].count;
+            localStorage.setItem('azkarData', JSON.stringify(azkar));
+        }
+    }
+    window.onload = loadMainAzkar;
+</script>
 </body>
 </html>
