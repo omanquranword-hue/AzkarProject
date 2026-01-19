@@ -1,3 +1,30 @@
+async function getAzkar() {
+    const res = await fetch(FB_URL);
+    const data = await res.json();
+
+    if (!data) return [];
+
+    // تحويل Object إلى Array
+    return Object.values(data).map(item => ({
+        zekr: item.text,
+        count: item.count
+    }));
+}
+async function saveAzkar(azkar) {
+    const obj = {};
+    azkar.forEach((item, i) => {
+        obj["id_" + i] = {
+            text: item.zekr,
+            count: item.count
+        };
+    });
+
+    await fetch(FB_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(obj)
+    });
+}
         return;
     }
 
