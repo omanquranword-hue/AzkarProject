@@ -1,8 +1,13 @@
+// دالة لجلب الأذكار مع ضمان عدم العودة للافتراضية إذا كانت المحفظة موجودة
 function getAzkar() {
     const azkarString = localStorage.getItem('azkarList');
-    return azkarString ? JSON.parse(azkarString) : [
-        {"zekr": "سبحان الله وبحمده", "count": 1},
-        {"zekr": "أستغفر الله", "count": 3}
+    if (azkarString) {
+        return JSON.parse(azkarString);
+    }
+    // هذه الأذكار تظهر فقط "أول مرة في العمر" عند فتح التطبيق
+    return [
+        {"zekr": "سبحان الله وبحمده", "count": 33},
+        {"zekr": "أستغفر الله", "count": 100}
     ];
 }
 
@@ -10,66 +15,70 @@ function saveAzkar(azkarList) {
     localStorage.setItem('azkarList', JSON.stringify(azkarList));
 }
 
-// دالة لتوليد صوت نقرة إلكترونية مجانية
+// دالة الصوت الإلكتروني
 function playClickSound() {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // تردد الصوت
-    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-
-    oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.1);
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    } catch (e) { console.log("Audio not supported"); }
 }
 
-if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
-    let azkarList = getAzkar();
-    let currentZekrIndex = 0;
-    let currentCount = 0;
-
-    function displayCurrentZekr() {
-        const zekrDisplay = document.getElementById('zekr-display');
-        const countDisplay = document.getElementById('count-display');
-        if (azkarList.length === 0) {
-            zekrDisplay.textContent = "يرجى إضافة أذكار من صفحة الإدارة";
-            countDisplay.textContent = "";
-            return;
-        }
-        const currentZekrData = azkarList[currentZekrIndex];
-        zekrDisplay.textContent = currentZekrData.zekr;
-        currentCount = currentCount || currentZekrData.count;
-        countDisplay.textContent = `المتبقي: ${currentCount}`;
-    }
-
-    function handleZekrClick() {
-        playClickSound(); // تشغيل الصوت
-        if (navigator.vibrate) navigator.vibrate(40); // اهتزاز
-
-        if (currentCount > 1) {
-            currentCount--;
-            document.getElementById('count-display').textContent = `المتبقي: ${currentCount}`;
-        } else {
-            currentZekrIndex = (currentZekrIndex + 1) % azkarList.length;
-            currentCount = azkarList[currentZekrIndex].count;
-            displayCurrentZekr();
-        }
-    }
-
-    window.onload = displayCurrentZekr;
-    window.handleZekrClick = handleZekrClick;
-}
-
+// دالة التحقق من كلمة المرور
 function checkAdminAccess() {
     const password = prompt("الرجاء إدخال كلمة المرور للوصول للإدارة:");
-    if (password === "1234") { // يمكنك تغيير 1234 لأي كلمة تريدها
+    if (password === "1234") {
         window.location.href = "admin.html";
     } else {
         alert("كلمة المرور خاطئة!");
     }
+}
+
+// كود الصفحة الرئيسية
+if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
+    function renderMainList() {
+        const container = document.getElementById('main-list');
+        if (!container) return;
+        container.innerHTML = '';
+        const azkar = getAzkar();
+        
+        azkar.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'zekr-card' + (index === 0 ? ' active' : '');
+            card.id = `card-${index}`;
+            let remaining = item.count;
+
+            card.innerHTML = `
+                <span class="zekr-text">${item.zekr}</span>
+                <div class="counter-circle" id="count-${index}">${remaining}</div>
+                <div class="completed-mark">✓</div>
+            `;
+
+            card.onclick = function() {
+                if (remaining > 0) {
+                    remaining--;
+                    document.getElementById(`count-${index}`).textContent = remaining;
+                    playClickSound();
+                    if (navigator.vibrate) navigator.vibrate(50);
+                    if (remaining === 0) {
+                        card.classList.replace('active', 'completed');
+                        const next = document.getElementById(`card-${index + 1}`);
+                        if (next) {
+                            next.classList.add('active');
+                            next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                }
+            };
+            container.appendChild(card);
+        });
+    }
+    window.onload = renderMainList;
 }
