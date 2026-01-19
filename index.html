@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
     <title>أذكاري</title>
     <style>
         :root { --primary: #004d40; --secondary: #c5a059; }
         body { font-family: sans-serif; background: #f0f4f7; margin: 0; padding: 20px; scroll-behavior: smooth; user-select: none; }
-        .container { max-width: 450px; margin: auto; }
+        .container { max-width: 450px; margin: auto; padding-bottom: 80px; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .reset-btn { background: #cfd8dc; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
+        .reset-btn { background: #cfd8dc; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
         .zekr-card { background: white; border-radius: 24px; padding: 30px 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; -webkit-tap-highlight-color: transparent; }
         .zekr-text { font-size: 1.5rem; color: #34495e; display: block; margin-bottom: 25px; line-height: 1.8; }
         .counter-outer { display: inline-flex; align-items: center; justify-content: center; width: 90px; height: 90px; border-radius: 50%; border: 4px solid #e0f2f1; }
         .counter-val { font-size: 2.2rem; font-weight: 800; color: var(--primary); }
         .finished { opacity: 0.3; transform: scale(0.95); transition: 0.4s; }
+        .footer { text-align: center; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .btn-settings { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 1rem; }
     </style>
 </head>
 <body>
@@ -25,6 +26,9 @@
             <button class="reset-btn" onclick="resetAll()">إعادة ضبط ↺</button>
         </div>
         <div id="main-list"></div>
+        <div class="footer">
+            <a href="admin.html" class="btn-settings">⚙️ لوحة التحكم (الإدارة)</a>
+        </div>
     </div>
 
     <script>
@@ -32,10 +36,13 @@
             const data = JSON.parse(localStorage.getItem('azkarData')) || [];
             const list = document.getElementById('main-list');
             list.innerHTML = '';
+            if (data.length === 0) {
+                list.innerHTML = "<p style='text-align:center; padding:20px; color:#999;'>لا توجد أذكار. اذهب للإدارة لإضافة أذكارك.</p>";
+            }
             data.forEach((item, i) => {
                 let displayCount = item.currentCount !== undefined ? item.currentCount : item.count;
                 list.innerHTML += `
-                    <div class="zekr-card ${displayCount === 0 ? 'finished' : ''}" id="card-${i}" onclick="tap(${i})">
+                    <div class="zekr-card ${displayCount == 0 ? 'finished' : ''}" id="card-${i}" onclick="tap(${i})">
                         <span class="zekr-text">${item.text}</span>
                         <div class="counter-outer"><div class="counter-val" id="cnt-${i}">${displayCount}</div></div>
                     </div>`;
@@ -49,23 +56,23 @@
             if (data[i].currentCount > 0) {
                 data[i].currentCount--;
                 
-                // حل أندرويد 2026: تشغيل الاهتزاز من خلال مصفوفة صريحة
+                // نبضة اهتزاز واحدة سريعة (أندرويد 2026)
                 if (window.navigator && window.navigator.vibrate) {
-                    window.navigator.vibrate(60); 
+                    window.navigator.vibrate(70); 
                 }
 
-                document.getElementById(`cnt-${i}`).innerText = data[i].currentCount;
+                document.getElementById('cnt-' + i).innerText = data[i].currentCount;
                 
                 if (data[i].currentCount === 0) {
-                    document.getElementById(`card-${i}`).classList.add('finished');
+                    document.getElementById('card-' + i).classList.add('finished');
                     
-                    // نمط اهتزاز ممتد للانتهاء
+                    // اهتزاز مزدوج عند الانتهاء
                     if (window.navigator && window.navigator.vibrate) {
                         window.navigator.vibrate([200, 100, 200]);
                     }
                     
                     setTimeout(() => {
-                        const next = document.getElementById(`card-${i + 1}`);
+                        const next = document.getElementById('card-' + (i + 1));
                         if (next) next.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 600);
                 }
@@ -74,7 +81,7 @@
         }
 
         function resetAll() {
-            if (confirm("إعادة ضبط العدادات؟")) {
+            if (confirm("إعادة ضبط جميع العدادات؟")) {
                 let data = JSON.parse(localStorage.getItem('azkarData')) || [];
                 data.forEach(item => item.currentCount = item.count);
                 localStorage.setItem('azkarData', JSON.stringify(data));
