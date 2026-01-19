@@ -2,74 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أذكار المسلم</title>
     <style>
-        :root { --primary: #004d40; --secondary: #c5a059; }
-        body { font-family: sans-serif; background: #f0f4f7; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 450px; margin: auto; }
-        .zekr-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; transition: 0.3s; }
-        .zekr-text { font-size: 1.4rem; color: #333; display: block; margin-bottom: 15px; }
-        .counter-badge { background: var(--primary); color: white; padding: 10px 30px; border-radius: 50px; font-size: 1.8rem; font-weight: bold; display: inline-block; cursor: pointer; }
-        .finished { opacity: 0.5; background: #e0f2f1; }
-        .repeat-btn { display: none; margin-top: 10px; background: var(--secondary); color: white; border: none; padding: 5px 15px; border-radius: 15px; cursor: pointer; font-size: 0.9rem; }
-        .is-done .repeat-btn { display: inline-block; }
+        body { font-family: sans-serif; background: #f0f4f7; padding: 20px; text-align: center; }
+        .zekr-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .counter { background: #00796b; color: white; padding: 10px 25px; border-radius: 50px; display: inline-block; font-size: 1.5rem; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 style="color:var(--primary)">أذكار المسلم</h1>
-        <div id="main-list">جاري التحميل...</div>
-        <div style="margin-top:30px;"><a href="admin.html" style="color:#999; text-decoration:none;">⚙️ الإدارة</a></div>
-    </div>
-
+    <h1>أذكار المسلم</h1>
+    <div id="main-list">جاري التحميل...</div>
+    <div style="margin-top:20px;"><a href="admin.html" style="color:#999; text-decoration:none;">⚙️ الإدارة</a></div>
     <script>
         const FB_URL = "https://azkarglobal-default-rtdb.firebaseio.com";
-
         async function load() {
             try {
                 const res = await fetch(FB_URL);
                 const data = await res.json();
                 const list = document.getElementById('main-list');
                 list.innerHTML = '';
-                if (!data) return list.innerHTML = "لا توجد أذكار.";
-
+                if(!data) { list.innerHTML = "لا توجد أذكار حالياً."; return; }
                 Object.keys(data).forEach(id => {
                     const item = data[id];
-                    let localCount = localStorage.getItem('count_' + id);
-                    if (localCount === null) localCount = item.count;
-
-                    list.innerHTML += `
-                        <div class="zekr-card ${localCount == 0 ? 'is-done finished' : ''}" id="card-${id}">
-                            <span class="zekr-text">${item.text}</span>
-                            <div class="counter-badge" id="cnt-${id}" onclick="tap('${id}')">${localCount}</div>
-                            <br>
-                            <button class="repeat-btn" onclick="resetSingle('${id}', ${item.count})">إعادة الذكر ↺</button>
-                        </div>`;
+                    list.innerHTML += `<div class="zekr-card">
+                        <p style="font-size:1.2rem;">${item.text}</p>
+                        <div class="counter">${item.count}</div>
+                    </div>`;
                 });
-            } catch (e) { document.getElementById('main-list').innerText = "خطأ في الاتصال"; }
+            } catch (e) { document.getElementById('main-list').innerText = "خطأ في الاتصال بالسيرفر"; }
         }
-
-        function tap(id) {
-            const el = document.getElementById('cnt-' + id);
-            let current = parseInt(el.innerText);
-            if (current > 0) {
-                current--;
-                el.innerText = current;
-                localStorage.setItem('count_' + id, current);
-                if (navigator.vibrate) navigator.vibrate(50);
-                if (current === 0) {
-                    document.getElementById('card-' + id).classList.add('is-done', 'finished');
-                }
-            }
-        }
-
-        function resetSingle(id, originalCount) {
-            localStorage.setItem('count_' + id, originalCount);
-            document.getElementById('cnt-' + id).innerText = originalCount;
-            document.getElementById('card-' + id).classList.remove('is-done', 'finished');
-        }
-
         window.onload = load;
     </script>
 </body>
