@@ -8,9 +8,12 @@
         :root { --primary: #004d40; --secondary: #c5a059; }
         body { font-family: sans-serif; background: #f0f4f7; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 450px; margin: auto; }
-        .zekr-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .zekr-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; transition: 0.3s; }
         .zekr-text { font-size: 1.4rem; color: #333; display: block; margin-bottom: 15px; }
-        .counter-badge { background: var(--primary); color: white; padding: 10px 30px; border-radius: 50px; font-size: 1.8rem; font-weight: bold; display: inline-block; }
+        .counter-badge { background: var(--primary); color: white; padding: 10px 30px; border-radius: 50px; font-size: 1.8rem; font-weight: bold; display: inline-block; cursor: pointer; }
+        .finished { opacity: 0.5; background: #e0f2f1; }
+        .repeat-btn { display: none; margin-top: 10px; background: var(--secondary); color: white; border: none; padding: 5px 15px; border-radius: 15px; cursor: pointer; font-size: 0.9rem; }
+        .is-done .repeat-btn { display: inline-block; }
     </style>
 </head>
 <body>
@@ -21,7 +24,7 @@
     </div>
 
     <script>
-        const FB_URL = "https://azkarglobal-default-rtdb.firebaseio.com/azkar.json"; // تأكد من وضع رابطك هنا
+        const FB_URL = "https://azkarglobal-default-rtdb.firebaseio.com";
 
         async function load() {
             try {
@@ -29,30 +32,22 @@
                 const data = await res.json();
                 const list = document.getElementById('main-list');
                 list.innerHTML = '';
-
-                if (!data) {
-                    list.innerHTML = "لا توجد أذكار حالياً.";
-                    return;
-                }
+                if (!data) return list.innerHTML = "لا توجد أذكار.";
 
                 Object.keys(data).forEach(id => {
                     const item = data[id];
-                    // التأكد من أن النص موجود لتجنب undefined
-                    const text = item.text || "ذكر غير معروف";
-                    const count = item.count || 0;
-                    
                     let localCount = localStorage.getItem('count_' + id);
-                    if (localCount === null) localCount = count;
+                    if (localCount === null) localCount = item.count;
 
                     list.innerHTML += `
-                        <div class="zekr-card" onclick="tap('${id}')">
-                            <span class="zekr-text">${text}</span>
-                            <div class="counter-badge" id="cnt-${id}">${localCount}</div>
+                        <div class="zekr-card ${localCount == 0 ? 'is-done finished' : ''}" id="card-${id}">
+                            <span class="zekr-text">${item.text}</span>
+                            <div class="counter-badge" id="cnt-${id}" onclick="tap('${id}')">${localCount}</div>
+                            <br>
+                            <button class="repeat-btn" onclick="resetSingle('${id}', ${item.count})">إعادة الذكر ↺</button>
                         </div>`;
                 });
-            } catch (e) {
-                document.getElementById('main-list').innerText = "خطأ في الاتصال بالسيرفر";
-            }
+            } catch (e) { document.getElementById('main-list').innerText = "خطأ في الاتصال"; }
         }
 
         function tap(id) {
@@ -63,8 +58,18 @@
                 el.innerText = current;
                 localStorage.setItem('count_' + id, current);
                 if (navigator.vibrate) navigator.vibrate(50);
+                if (current === 0) {
+                    document.getElementById('card-' + id).classList.add('is-done', 'finished');
+                }
             }
         }
+
+        function resetSingle(id, originalCount) {
+            localStorage.setItem('count_' + id, originalCount);
+            document.getElementById('cnt-' + id).innerText = originalCount;
+            document.getElementById('card-' + id).classList.remove('is-done', 'finished');
+        }
+
         window.onload = load;
     </script>
 </body>
