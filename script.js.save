@@ -1,16 +1,4 @@
-<script>
-    // الحصول على الأذكار من التخزين المحلي
-    function getAzkar() {
-        const data = localStorage.getItem('azkar');
-        return data ? JSON.parse(data) : [];
-    }
-
-    // حفظ الأذكار في التخزين المحلي
-    function saveAzkar(azkar) {
-        localStorage.setItem('azkar', JSON.stringify(azkar));
-    }
-</script>
-// دالة لجلب الأذكار مع ضمان عدم العودة للافتراضية إذا كانت المحفظة موجودة
+\// دالة لجلب الأذكار مع ضمان عدم العودة للافتراضية إذا كانت المحفظة موجودة
 function getAzkar() {
     const azkarString = localStorage.getItem('azkarList');
     if (azkarString) {
