@@ -3,78 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الأذكار</title>
+    <title>إدارة الأذكار العالمية</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; direction: rtl; text-align: center; }
-        .box { background: white; padding: 25px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn-add { width: 100%; padding: 15px; background: #00796b; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .zekr-item { background: #fff; border-bottom: 1px solid #eee; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-del { background: #ff5252; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
-        #admin-content { display: none; } /* مخفي حتى إدخال الرمز */
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; text-align: center; }
+        .box { background: white; padding: 20px; border-radius: 12px; max-width: 500px; margin: auto; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
+        button { width: 94%; padding: 15px; background: #00796b; color: white; border: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="box">
-        <a href="index.html" style="text-decoration:none; color:#00796b; float:right;">⬅ العودة</a>
-        <h2 id="title">قفل الإدارة</h2>
-        
-        <div id="login-section">
-            <input type="password" id="pass-input" placeholder="أدخل الرمز السري">
-            <button class="btn-add" onclick="checkPass()">دخول</button>
-        </div>
-
-        <div id="admin-content">
-            <input type="text" id="txt" placeholder="نص الذكر الجديد...">
-            <input type="number" id="num" value="1" placeholder="عدد المرات">
-            <button class="btn-add" onclick="add()">إضافة</button>
-            <div id="list"></div>
-        </div>
+        <h2>إضافة ذكر لكل الهواتف</h2>
+        <input type="text" id="txt" placeholder="نص الذكر">
+        <input type="number" id="num" value="33">
+        <button onclick="saveGlobal()">نشر للجميع</button>
+        <p id="status"></p>
     </div>
 
     <script>
-        const SECRET_CODE = "1234"; // يمكنك تغيير الرمز من هنا
+        // ضع رابط Firebase الخاص بك هنا
+        const FB_URL = "https://azkarproject-XXXXX-default-rtdb.firebaseio.com/azkar.json";
 
-        function checkPass() {
-            const input = document.getElementById('pass-input').value;
-            if(input === SECRET_CODE) {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('admin-content').style.display = 'block';
-                document.getElementById('title').innerText = "إدارة الأذكار";
-                render();
-            } else {
-                alert("الرمز غير صحيح!");
-            }
-        }
-
-        function render() {
-            const data = JSON.parse(localStorage.getItem('azkarData')) || [];
-            const list = document.getElementById('list');
-            list.innerHTML = '';
-            data.forEach((item, i) => {
-                list.innerHTML += `<div class="zekr-item">
-                    <span>${item.text} (${item.count})</span>
-                    <button class="btn-del" onclick="del(${i})">حذف</button>
-                </div>`;
-            });
-        }
-
-        function add() {
+        async function saveGlobal() {
             const t = document.getElementById('txt').value;
             const n = document.getElementById('num').value;
-            if(!t) return;
-            const data = JSON.parse(localStorage.getItem('azkarData')) || [];
-            data.push({ text: t, count: parseInt(n) });
-            localStorage.setItem('azkarData', JSON.stringify(data));
-            document.getElementById('txt').value = '';
-            render();
-        }
+            if(!t) return alert("اكتب الذكر");
 
-        function del(i) {
-            const data = JSON.parse(localStorage.getItem('azkarData'));
-            data.splice(i, 1);
-            localStorage.setItem('azkarData', JSON.stringify(data));
-            render();
+            const newZekr = { text: t, count: parseInt(n) };
+            
+            document.getElementById('status').innerText = "جاري النشر...";
+            
+            // إرسال البيانات للسيرفر
+            await fetch(FB_URL, {
+                method: 'POST',
+                body: JSON.stringify(newZekr)
+            });
+
+            document.getElementById('status').innerText = "تم النشر! سيظهر في كل الهواتف الآن.";
+            document.getElementById('txt').value = '';
         }
     </script>
 </body>
