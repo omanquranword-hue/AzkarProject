@@ -1,61 +1,44 @@
-// الحصول على الأذكار من التخزين المحلي
-function getAzkar() {
-    const data = localStorage.getItem('azkar');
-    return data ? JSON.parse(data) : [];
-}
+cat << 'EOF' > script.js
+let azkar = JSON.parse(localStorage.getItem('azkarData')) || [
+    { text: "سبحان الله", count: 33 },
+    { text: "الحمد لله", count: 33 },
+    { text: "الله أكبر", count: 34 }
+];
 
-// حفظ الأذكار في التخزين المحلي
-function saveAzkar(azkar) {
-    localStorage.setItem('azkar', JSON.stringify(azkar));
-}
-
-// عرض الأذكار
-function renderAzkar() {
+function displayAzkar() {
     const container = document.getElementById('azkar-list-container');
+    if (!container) return;
     container.innerHTML = '';
-    const azkar = getAzkar();
+    azkar.forEach((item, index) => {
+        container.innerHTML += `
+            <div class="zekr-item">
+                <div class="zekr-info">
+                    <span class="zekr-count">${item.count} مرة</span>
+                    <span>${item.text}</span>
+                </div>
+                <button class="btn-delete" onclick="deleteZekr(${index})">حذف</button>
+            </div>`;
+    });
+    localStorage.setItem('azkarData', JSON.stringify(azkar));
+}
 
-    if (azkar.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color: #999;">القائمة فارغة، قم بإضافة أذكار جديدة.</p>';
+function addZekr() {
+    const textInput = document.getElementById('zekr-input');
+    const countInput = document.getElementById('count-input');
+    if (textInput.value.trim() === "") {
+        alert("يرجى كتابة الذكر أولاً");
         return;
     }
-
-    azkar.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'zekr-item';
-        div.innerHTML = `
-            <div class="zekr-info">
-                <strong>${item.zekr}</strong>
-                <span class="zekr-count">التكرار: ${item.count}</span>
-            </div>
-            <button class="btn-delete" onclick="deleteZekr(${index})">حذف</button>
-        `;
-        container.appendChild(div);
-    });
+    azkar.push({ text: textInput.value, count: parseInt(countInput.value) || 1 });
+    textInput.value = '';
+    displayAzkar();
 }
 
-// إضافة ذكر جديد
-function addZekr() {
-    const zekr = document.getElementById('zekr-input').value.trim();
-    const count = parseInt(document.getElementById('count-input').value);
-    if (!zekr) return alert("يرجى كتابة الذكر");
-
-    const azkar = getAzkar();
-    azkar.push({ zekr, count });
-    saveAzkar(azkar);
-    document.getElementById('zekr-input').value = '';
-    renderAzkar();
-}
-
-// حذف ذكر
 function deleteZekr(index) {
     if (confirm("هل أنت متأكد من حذف هذا الذكر؟")) {
-        const azkar = getAzkar();
         azkar.splice(index, 1);
-        saveAzkar(azkar);
-        renderAzkar();
+        displayAzkar();
     }
 }
-
-// تشغيل العرض عند فتح الصفحة
-window.onload = renderAzkar;
+window.onload = displayAzkar;
+EOF
