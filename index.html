@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>أذكاري</title>
     <style>
         :root { --primary: #004d40; --secondary: #c5a059; }
         body { font-family: sans-serif; background: #f0f4f7; margin: 0; padding: 20px; scroll-behavior: smooth; user-select: none; }
         .container { max-width: 450px; margin: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .reset-btn { background: #cfd8dc; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
+        .reset-btn { background: #cfd8dc; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
         .zekr-card { background: white; border-radius: 24px; padding: 30px 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; -webkit-tap-highlight-color: transparent; }
         .zekr-text { font-size: 1.5rem; color: #34495e; display: block; margin-bottom: 25px; line-height: 1.8; }
         .counter-outer { display: inline-flex; align-items: center; justify-content: center; width: 90px; height: 90px; border-radius: 50%; border: 4px solid #e0f2f1; }
@@ -48,9 +49,9 @@
             if (data[i].currentCount > 0) {
                 data[i].currentCount--;
                 
-                // 1. اهتزاز النقر العادي (قصير وقوي: 50 مللي ثانية)
-                if (navigator.vibrate) {
-                    navigator.vibrate(50);
+                // حل أندرويد 2026: تشغيل الاهتزاز من خلال مصفوفة صريحة
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(60); 
                 }
 
                 document.getElementById(`cnt-${i}`).innerText = data[i].currentCount;
@@ -58,9 +59,9 @@
                 if (data[i].currentCount === 0) {
                     document.getElementById(`card-${i}`).classList.add('finished');
                     
-                    // 2. اهتزاز الانتهاء (نمط طويل: اهتزاز 200ms، توقف 100ms، اهتزاز 200ms)
-                    if (navigator.vibrate) {
-                        navigator.vibrate([200, 100, 200]);
+                    // نمط اهتزاز ممتد للانتهاء
+                    if (window.navigator && window.navigator.vibrate) {
+                        window.navigator.vibrate([200, 100, 200]);
                     }
                     
                     setTimeout(() => {
