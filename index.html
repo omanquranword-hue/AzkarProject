@@ -2,81 +2,140 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أذكاري</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أذكاري - تجربة روحانية</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f7; margin: 0; padding: 20px; user-select: none; }
-        .container { max-width: 500px; margin: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        h1 { color: #2c3e50; font-size: 1.5rem; margin: 0; }
-        .reset-btn { background: #cfd8dc; color: #455a64; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: bold; }
-        .zekr-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
-        .zekr-card:active { transform: scale(0.98); background: #f8f9fa; }
-        .zekr-text { font-size: 1.3rem; color: #333; display: block; margin-bottom: 15px; line-height: 1.6; }
-        .counter-badge { background: #00796b; color: white; padding: 10px 30px; border-radius: 50px; font-size: 1.8rem; font-weight: bold; display: inline-block; min-width: 50px; transition: 0.3s; }
-        .finished { background: #b0bec5 !important; }
-        .footer { text-align: center; margin-top: 30px; }
-        .btn-settings { color: #90a4ae; text-decoration: none; font-size: 0.85rem; }
+        :root {
+            --primary: #004d40;
+            --secondary: #c5a059;
+            --bg: #f8faf9;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+        body { 
+            font-family: 'SF Pro Arabic', 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            background-attachment: fixed;
+            margin: 0; padding: 20px; color: #2c3e50;
+        }
+        .container { max-width: 450px; margin: auto; }
+        
+        .header { 
+            text-align: center; margin-bottom: 30px; padding: 20px 0;
+        }
+        h1 { 
+            font-size: 1.8rem; color: var(--primary); margin: 0;
+            letter-spacing: 1px; font-weight: 700;
+        }
+        .reset-wrapper { display: flex; justify-content: flex-end; margin-bottom: 15px; }
+        .reset-btn { 
+            background: none; border: 1px solid var(--secondary); color: var(--secondary);
+            padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer;
+            transition: 0.3s;
+        }
+        .reset-btn:active { background: var(--secondary); color: white; }
+
+        .zekr-card { 
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 25px; margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 77, 64, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .zekr-card:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        .zekr-text { 
+            font-size: 1.4rem; color: #34495e; display: block; 
+            margin-bottom: 20px; line-height: 1.8; font-weight: 500;
+        }
+
+        .counter-outer {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid #e0f2f1; position: relative;
+        }
+        .counter-val {
+            font-size: 2rem; font-weight: 800; color: var(--primary);
+        }
+        .progress-ring {
+            position: absolute; top: -3px; left: -3px;
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid var(--secondary);
+            clip-path: polygon(50% 50%, -50% -50%, 150% -50%); /* تأثير بصري */
+            display: none;
+        }
+
+        .finished { opacity: 0.4; filter: grayscale(1); }
+        .finished .counter-outer { border-color: #ccc; }
+
+        .footer { text-align: center; margin-top: 50px; opacity: 0.6; }
+        .btn-settings { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        
+        /* انيميشن عند التحميل */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .zekr-card { animation: fadeIn 0.5s ease forwards; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>أذكار المسلم</h1>
-            <button class="reset-btn" onclick="resetAll()">إعادة ضبط ↺</button>
+        </div>
+        <div class="reset-wrapper">
+            <button class="reset-btn" onclick="resetAll()">إعادة ضبط العدادات ↺</button>
         </div>
         <div id="main-list"></div>
         <div class="footer">
-            <a href="admin.html" class="btn-settings">⚙️ الإدارة (محمية)</a>
+            <a href="admin.html" class="btn-settings">⚙️ الإعدادات الأمنية</a>
         </div>
     </div>
 
     <script>
-        // دالة تحميل الأذكار
         function load() {
             const data = JSON.parse(localStorage.getItem('azkarData')) || [];
             const list = document.getElementById('main-list');
-            list.innerHTML = data.length ? '' : "<p style='text-align:center; color:#999;'>لا توجد أذكار. أضفها من الإدارة.</p>";
+            list.innerHTML = data.length ? '' : "<p style='text-align:center; padding:50px; color:#999;'>لم يتم إضافة أذكار بعد..</p>";
             
             data.forEach((item, i) => {
-                // نستخدم 'currentCount' إذا كان موجوداً، وإلا نستخدم 'count' الأصلي
                 let displayCount = item.currentCount !== undefined ? item.currentCount : item.count;
                 list.innerHTML += `
-                    <div class="zekr-card" onclick="tap(${i})">
+                    <div class="zekr-card ${displayCount === 0 ? 'finished' : ''}" onclick="tap(${i}, this)">
                         <span class="zekr-text">${item.text}</span>
-                        <div class="counter-badge ${displayCount === 0 ? 'finished' : ''}" id="cnt-${i}">${displayCount}</div>
+                        <div class="counter-outer">
+                            <div class="counter-val" id="cnt-${i}">${displayCount}</div>
+                        </div>
                     </div>`;
             });
         }
 
-        // دالة النقر (التسبيح)
-        function tap(i) {
+        function tap(i, element) {
             let data = JSON.parse(localStorage.getItem('azkarData'));
             if (data[i].currentCount === undefined) data[i].currentCount = data[i].count;
 
             if (data[i].currentCount > 0) {
                 data[i].currentCount--;
-                if (window.navigator.vibrate) window.navigator.vibrate(40); // اهتزاز خفيف
+                if (window.navigator.vibrate) window.navigator.vibrate(30);
                 
                 document.getElementById(`cnt-${i}`).innerText = data[i].currentCount;
+                
                 if (data[i].currentCount === 0) {
-                    document.getElementById(`cnt-${i}`).classList.add('finished');
-                    if (window.navigator.vibrate) window.navigator.vibrate([100, 50, 100]); // اهتزاز مميز عند الانتهاء
+                    element.classList.add('finished');
+                    if (window.navigator.vibrate) window.navigator.vibrate([50, 100, 50]);
                 }
                 localStorage.setItem('azkarData', JSON.stringify(data));
             }
         }
 
-        // دالة إعادة الضبط للقيم الأصلية
         function resetAll() {
-            if (confirm("هل تريد إعادة جميع العدادات إلى أرقامها الأصلية؟")) {
+            if (confirm("سيتم إعادة تصفير جميع العدادات، هل أنت متأكد؟")) {
                 let data = JSON.parse(localStorage.getItem('azkarData')) || [];
                 data.forEach(item => item.currentCount = item.count);
                 localStorage.setItem('azkarData', JSON.stringify(data));
                 load();
             }
         }
-
         window.onload = load;
     </script>
 </body>
