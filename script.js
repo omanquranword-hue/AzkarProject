@@ -1,3 +1,41 @@
+        return;
+    }
+
+    const azkar = await getAzkar();
+    azkar.push({ zekr, count });
+    await saveAzkar(azkar);
+
+    document.getElementById("zekr-input").value = "";
+    renderAzkar();
+}
+
+// حذف ذكر
+async function deleteZekr(index) {
+    const azkar = await getAzkar();
+    azkar.splice(index, 1);
+    await saveAzkar(azkar);
+    renderAzkar();
+}
+
+// عرض الأذكار
+async function renderAzkar() {
+    const container = document.getElementById("azkar-list-container");
+    if (!container) return;
+
+    container.innerHTML = "";
+    const azkar = await getAzkar();
+
+    azkar.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <p>${item.zekr} (${item.count})</p>
+            <button onclick="deleteZekr(${index})">حذف</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+window.onload = renderAzkar;
 const FB_URL = "https://azkarglobal-default-rtdb.firebaseio.com/azkar.json";
 
 // جلب الأذكار
